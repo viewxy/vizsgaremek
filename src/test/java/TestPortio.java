@@ -234,25 +234,6 @@ public class TestPortio {
     }
 
     @Test
-    @Disabled
-    @DisplayName("Resume oldal ellenőrzése")
-    @Description("Resume oldalon lévő Experiences szövegének ellenőrzése")
-    @Severity(SeverityLevel.NORMAL)
-    public void resumesTest() throws InterruptedException {
-        Util util = new Util();
-        basePage.clickTermsAndConditionsAccept();
-        RegisterPage registerPage = basePage.clickRegister();
-        registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
-
-        LoginPage loginPage = registerPage.clickLogin();
-        LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
-
-        ResumePage resumePage = landingPage.clickResumeButton();
-        Thread.sleep(1000);
-        resumePage.clickExperiencesButton();
-    }
-
-    @Test
     @DisplayName("Blog oldal lista lapozás ellenőrzése")
     @Description("Blog összes bejegyzés lapozás")
     @Severity(SeverityLevel.NORMAL)
@@ -317,15 +298,6 @@ public class TestPortio {
 
         File deleteFile = new File(testFileName);
         deleteFile.delete();
-    }
-
-
-    @Test
-    @Disabled
-    @DisplayName("Kép ellenőrzése")
-    @Description("Képek ellenőrzése a felületen")
-    @Severity(SeverityLevel.NORMAL)
-    public void pictureTest() {
     }
 
     @Test

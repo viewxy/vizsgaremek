@@ -2,7 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class PortfolioPage {
-WebDriver driver;
+    WebDriver driver;
 
     public PortfolioPage(WebDriver driver) {
         this.driver = driver;

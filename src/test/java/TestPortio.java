@@ -1,13 +1,10 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.time.Duration;
 
@@ -18,7 +15,7 @@ public class TestPortio {
 
 
     @BeforeEach
-    public void Setup() {
+    public void setup() {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
@@ -39,7 +36,6 @@ public class TestPortio {
     }
 
     @Test
-    @Tag("test_id_tag_prefix TC1")
     @DisplayName("Navigáció az oldalra")
     @Description("Ez a teszt a helyes url címre navigálást fedi le")
     @Severity(SeverityLevel.CRITICAL)
@@ -238,10 +234,12 @@ public class TestPortio {
     }
 
     @Test
+    @Disabled
     @DisplayName("Resume oldal ellenőrzése")
     @Description("Resume oldalon lévő Experiences szövegének ellenőrzése")
     @Severity(SeverityLevel.NORMAL)
-    public void resumesTest() {
+    public void resumesTest() throws InterruptedException {
+        Util util = new Util();
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
@@ -249,7 +247,9 @@ public class TestPortio {
         LoginPage loginPage = registerPage.clickLogin();
         LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
 
-        //continue
+        ResumePage resumePage = landingPage.clickResumeButton();
+        Thread.sleep(1000);
+        resumePage.clickExperiencesButton();
     }
 
     @Test
@@ -315,16 +315,17 @@ public class TestPortio {
 
         Assertions.assertEquals(expected, util.read(testFileName));
 
-        File deleteFile = new File(util.getFileName());
+        File deleteFile = new File(testFileName);
         deleteFile.delete();
     }
 
+
     @Test
+    @Disabled
     @DisplayName("Kép ellenőrzése")
     @Description("Képek ellenőrzése a felületen")
     @Severity(SeverityLevel.NORMAL)
-    public void pictureTest(){
-
+    public void pictureTest() {
     }
 
     @Test
@@ -332,7 +333,18 @@ public class TestPortio {
     @Description("Regisztrált profil törlése az adatbázisból, automatikus kijelentkezés ellenőrzése")
     @Severity(SeverityLevel.NORMAL)
     public void deleteProfileLogoutTest() {
+        basePage.clickTermsAndConditionsAccept();
+        RegisterPage registerPage = basePage.clickRegister();
+        registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
 
+        LoginPage loginPage = registerPage.clickLogin();
+        LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
+
+        ProfilePage profilePage = landingPage.clickProfileButton();
+        profilePage.clickDeleteAccountButton();
+        loginPage = profilePage.clickIAmSureButton();
+
+        Assertions.assertTrue(loginPage.isLoginWindowDisplayed());
     }
 
     @Test
@@ -340,7 +352,19 @@ public class TestPortio {
     @Description("Regisztrált profil törlése az adatbázisból, törlés ellenőrzése")
     @Severity(SeverityLevel.NORMAL)
     public void deleteProfileTest() {
+        basePage.clickTermsAndConditionsAccept();
+        RegisterPage registerPage = basePage.clickRegister();
+        registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
 
+        LoginPage loginPage = registerPage.clickLogin();
+        LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
+
+        ProfilePage profilePage = landingPage.clickProfileButton();
+        profilePage.clickDeleteAccountButton();
+        loginPage = profilePage.clickIAmSureButton();
+        loginPage.loginProcess("viewxy", "pass123");
+
+        Assertions.assertTrue(loginPage.isLoginWindowDisplayed());
     }
 
     @Test
@@ -348,7 +372,17 @@ public class TestPortio {
     @Description("Az oldalon konzisztens a heading-ek szövegstílusa, betűtípusa")
     @Severity(SeverityLevel.MINOR)
     public void headingFontTest() {
+        basePage.clickTermsAndConditionsAccept();
+        RegisterPage registerPage = basePage.clickRegister();
+        registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
 
+        LoginPage loginPage = registerPage.clickLogin();
+        LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
+        String expected = "\"yeseva one\", cursive";
+        String[] actualArray = landingPage.getFontStyle();
+        for (String actual : actualArray) {
+            Assertions.assertEquals(expected, actual);
+        }
     }
 
     @AfterEach

@@ -25,7 +25,7 @@ public class Util {
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String line = myReader.nextLine();
-                writtenText += line + "\n";
+                writtenText += line + System.lineSeparator();
             }
             myReader.close();
         } catch (FileNotFoundException e) {

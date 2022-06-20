@@ -1,13 +1,13 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.time.Duration;
 
@@ -26,10 +26,9 @@ public class TestPortio {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-extensions");
-        // options.addArguments("--headless");
-        // options.addArguments("--window-size=1920,1080");
+        options.addArguments("--headless");
+        options.addArguments("--window-size=1920,1080");
         options.addArguments("--incognito");
-        options.addArguments("--start-maximized");
 
         driver = new ChromeDriver(options);
         basePage = new BasePage(driver);
@@ -39,12 +38,11 @@ public class TestPortio {
         basePage.navigate();
     }
 
-
     @Test
-    @Epic("Put epic name here")
-    @Story("Story or stories")
-    @Description("additional info, description")
-    @Severity(SeverityLevel.NORMAL)
+    @Tag("test_id_tag_prefix TC1")
+    @DisplayName("Navigáció az oldalra")
+    @Description("Ez a teszt a helyes url címre navigálást fedi le")
+    @Severity(SeverityLevel.CRITICAL)
     public void navigateTest() {
         String expected = "https://lennertamas.github.io/portio/";
         String actual = driver.getCurrentUrl();
@@ -52,6 +50,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Terms and Conditions elfogadása")
+    @Description("A Terms and conditions elfogadása")
+    @Severity(SeverityLevel.CRITICAL)
     public void termsAndConditionsAcceptTest() {
         basePage.clickTermsAndConditionsAccept();
 
@@ -59,6 +60,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Terms and Conditions kilépés")
+    @Description("A Terms and conditions kilépés gombjának megnyomása")
+    @Severity(SeverityLevel.CRITICAL)
     public void termsAndConditionsExitTest() {
         basePage.clickTermsAndConditionsExit();
 
@@ -66,6 +70,21 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Terms and Conditions szöveg tartalma")
+    @Description("A Terms and conditions szöveg tartalmának ellenőrzése, összehasonlítás egy .txt fájllal")
+    @Severity(SeverityLevel.CRITICAL)
+    public void termsAndConditionsMainTextTest() {
+        util = new Util();
+        String expected = util.read("src/test/resources/termsandconditions.txt");
+        String actual = basePage.getTermsAndConditionsText();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("Terms and conditions ablakon kívül kattintás")
+    @Description("Azt teszteli, hogy eltűnik-e a Terms and conditions ablak, ha azon kívülre kattintunk")
+    @Severity(SeverityLevel.CRITICAL)
     public void termsAndConditionsClickToSideTest() {
         basePage.clickOverlay();
 
@@ -73,15 +92,9 @@ public class TestPortio {
     }
 
     @Test
-    public void termsAndConditionsMainTextTest() {
-        util = new Util();
-        String expected = util.read("./termsandconditions.txt");
-        String actual = basePage.getTermsAndConditionsText();
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
+    @DisplayName("Regisztráció helyes adatok kitöltésével")
+    @Description("Regisztráció az összes adat helyes kitöltésével")
+    @Severity(SeverityLevel.CRITICAL)
     public void registrationTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -93,6 +106,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Regisztráció üres adatokkal")
+    @Description("Regisztráció üres adatokkal")
+    @Severity(SeverityLevel.CRITICAL)
     public void registrationEmptyEverythingTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -104,6 +120,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Regisztráció Description mező üresen hagyva")
+    @Description("Regisztráció helyes adatokkal, a Description mező üresen hagyva")
+    @Severity(SeverityLevel.NORMAL)
     public void registrationEmptyDescriptionTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -115,6 +134,30 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Sorozatos reisztráció")
+    @Description("Sorozatos regisztráció fájlból adatokkal")
+    @Severity(SeverityLevel.CRITICAL)
+    public void registerMultipleTest() {
+        util = new Util();
+        basePage.clickTermsAndConditionsAccept();
+        RegisterPage registerPage = basePage.clickRegister();
+
+        String[] registerList = util.read("src/test/resources/MOCK_DATA.csv").split(System.lineSeparator());
+        for (String s : registerList) {
+            String username = s.split(",")[0];
+            String password = s.split(",")[1];
+            String email = s.split(",")[2];
+            registerPage.registerProcess(username, password, email, "");
+            String actual = registerPage.checkRegistrationValidation();
+
+            Assertions.assertEquals("User registered!", actual);
+        }
+    }
+
+    @Test
+    @DisplayName("Sikeres Sign in helyes adatokkal")
+    @Description("Bejelentkezés a regisztrációnál megadottakkal egyező adatokkal")
+    @Severity(SeverityLevel.CRITICAL)
     public void loginSuccessfulTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -127,6 +170,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Sikertelen Sign in helytelen username-el")
+    @Description("Bejelentkezés helytelen felhasználóvévvel")
+    @Severity(SeverityLevel.CRITICAL)
     public void loginWrongUserTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -141,6 +187,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Sikertelen Sign in helytelen passworddel")
+    @Description("Bejelentkezés helytelen jelszóval")
+    @Severity(SeverityLevel.CRITICAL)
     public void loginWrongPasswordTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -154,6 +203,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Sikertelen Sign in üres adatokkal")
+    @Description("Bejelentkezés üres adatokkal")
+    @Severity(SeverityLevel.CRITICAL)
     public void loginEmptyTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -167,6 +219,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Logout")
+    @Description("Kijelentkezés")
+    @Severity(SeverityLevel.CRITICAL)
     public void logOutTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -183,6 +238,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Resume oldal ellenőrzése")
+    @Description("Resume oldalon lévő Experiences szövegének ellenőrzése")
+    @Severity(SeverityLevel.NORMAL)
     public void resumesTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -195,6 +253,9 @@ public class TestPortio {
     }
 
     @Test
+    @DisplayName("Blog oldal lista lapozás ellenőrzése")
+    @Description("Blog összes bejegyzés lapozás")
+    @Severity(SeverityLevel.NORMAL)
     public void blogTest() throws InterruptedException {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
@@ -215,27 +276,12 @@ public class TestPortio {
     }
 
     @Test
-    public void registerMultipleTest() {
-        util = new Util();
-        basePage.clickTermsAndConditionsAccept();
-        RegisterPage registerPage = basePage.clickRegister();
-
-        String[] registerList = util.read("./MOCK_DATA.csv").split("\n");
-        for (String s : registerList) {
-            String username = s.split(",")[0];
-            String password = s.split(",")[1];
-            String email = s.split(",")[2];
-            registerPage.registerProcess(username, password, email, "");
-            String actual = registerPage.checkRegistrationValidation();
-
-            Assertions.assertEquals("User registered!", actual);
-        }
-    }
-
-    @Test
+    @DisplayName("Blog oldal tartalom ellenőrzése")
+    @Description("Blog összes bejegyzés cím ellenőrzése")
+    @Severity(SeverityLevel.NORMAL)
     public void blogTitlesToFileTest() throws InterruptedException {
         util = new Util();
-        String testFileName = "blogPostTitles.txt";
+        String testFileName = "src/test/resources/blogPostTitles.txt";
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
@@ -249,23 +295,64 @@ public class TestPortio {
         util.setFileName(testFileName);
         while (true) {
             for (String actual : allBlogPostPage.getArrayOfBlogTitles()) {
-                util.write(actual, "\n");
+                util.write(actual, System.lineSeparator());
             }
             if (!allBlogPostPage.isNextButtonDisplayed()) {
                 break;
             }
             allBlogPostPage.clickNextButton();
         }
-        File testFile = new File(testFileName);
 
+        String expected = "Markdown Formatting Demo" + System.lineSeparator() +
+                "Designer Conference at Florida 2020" + System.lineSeparator() +
+                "Benjamin Franklins thoughts about new designers" + System.lineSeparator() +
+                "Designers thoughts about mobile UI" + System.lineSeparator() +
+                "How to become acreative designer" + System.lineSeparator() +
+                "New designers limitations" + System.lineSeparator() +
+                "Things you must know as a designer" + System.lineSeparator() +
+                "World's Most Famous App Developers and Designers" + System.lineSeparator() +
+                "You must know this before becoming a designer";
 
-        Assertions.assertTrue(testFile.length() > 0);
+        Assertions.assertEquals(expected, util.read(testFileName));
+
+        File deleteFile = new File(util.getFileName());
+        deleteFile.delete();
     }
 
+    @Test
+    @DisplayName("Kép ellenőrzése")
+    @Description("Képek ellenőrzése a felületen")
+    @Severity(SeverityLevel.NORMAL)
+    public void pictureTest(){
+
+    }
+
+    @Test
+    @DisplayName("Profil törlése automatikus kijelentkezés")
+    @Description("Regisztrált profil törlése az adatbázisból, automatikus kijelentkezés ellenőrzése")
+    @Severity(SeverityLevel.NORMAL)
+    public void deleteProfileLogoutTest() {
+
+    }
+
+    @Test
+    @DisplayName("Profil törlése ellenőrzése")
+    @Description("Regisztrált profil törlése az adatbázisból, törlés ellenőrzése")
+    @Severity(SeverityLevel.NORMAL)
+    public void deleteProfileTest() {
+
+    }
+
+    @Test
+    @DisplayName("Heading szövegstílus ellenőrzése")
+    @Description("Az oldalon konzisztens a heading-ek szövegstílusa, betűtípusa")
+    @Severity(SeverityLevel.MINOR)
+    public void headingFontTest() {
+
+    }
 
     @AfterEach
     public void dispose() {
         driver.quit();
-
     }
 }

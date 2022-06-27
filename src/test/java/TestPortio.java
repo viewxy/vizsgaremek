@@ -11,7 +11,7 @@ import org.testng.annotations.Listeners;
 import java.io.File;
 import java.time.Duration;
 
-@Listeners
+@Listeners({BaseTest.class})
 public class TestPortio {
     WebDriver driver;
     BasePage basePage;

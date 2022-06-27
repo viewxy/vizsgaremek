@@ -6,10 +6,12 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.Listeners;
 
 import java.io.File;
 import java.time.Duration;
 
+@Listeners
 public class TestPortio {
     WebDriver driver;
     BasePage basePage;
@@ -37,10 +39,6 @@ public class TestPortio {
         basePage.navigate();
     }
 
-    @Attachment
-    public byte[] saveFailureScreenShot(WebDriver driver) {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    }
 
     @Test
     @DisplayName("Navigáció az oldalra")
@@ -50,7 +48,6 @@ public class TestPortio {
         String expected = "https://lennertamas.github.io/portio/";
         String actual = driver.getCurrentUrl();
         Assertions.assertEquals(expected, actual);
-        saveFailureScreenShot(driver);
     }
 
     @Test
@@ -83,7 +80,6 @@ public class TestPortio {
         String actual = basePage.getTermsAndConditionsText();
 
         Assertions.assertEquals(expected, actual);
-        saveFailureScreenShot(driver);
     }
 
     @Test

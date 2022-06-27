@@ -1,17 +1,18 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.Listeners;
 
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.time.Duration;
 
-@Listeners({BaseTest.class})
 public class TestPortio {
     WebDriver driver;
     BasePage basePage;
@@ -39,6 +40,9 @@ public class TestPortio {
         basePage.navigate();
     }
 
+    public void addAttachment() {
+        Allure.addAttachment("", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+    }
 
     @Test
     @DisplayName("Navigáció az oldalra")
@@ -48,6 +52,7 @@ public class TestPortio {
         String expected = "https://lennertamas.github.io/portio/";
         String actual = driver.getCurrentUrl();
         Assertions.assertEquals(expected, actual);
+        addAttachment();
     }
 
     @Test

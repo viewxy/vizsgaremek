@@ -16,12 +16,6 @@ public class TestPortio {
     Util util;
 
 
-
-    @Attachment
-    public byte[] saveFailureScreenShot(WebDriver driver) {
-        return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
-    }
-
     @BeforeEach
     public void setup() {
         WebDriverManager.chromedriver().setup();
@@ -31,7 +25,7 @@ public class TestPortio {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-extensions");
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--incognito");
 
@@ -41,6 +35,11 @@ public class TestPortio {
                 .timeouts()
                 .implicitlyWait(Duration.ofSeconds(10));
         basePage.navigate();
+    }
+
+    @Attachment
+    public byte[] saveFailureScreenShot(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     @Test
@@ -384,7 +383,6 @@ public class TestPortio {
             Assertions.assertEquals(expected, actual);
         }
     }
-
 
 
     @AfterEach

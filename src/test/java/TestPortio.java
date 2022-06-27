@@ -1,6 +1,8 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,6 +16,12 @@ public class TestPortio {
     Util util;
 
 
+
+    @Attachment
+    public byte[] saveFailureScreenShot(WebDriver driver) {
+        return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+    }
+
     @BeforeEach
     public void setup() {
         WebDriverManager.chromedriver().setup();
@@ -23,7 +31,7 @@ public class TestPortio {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-extensions");
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--incognito");
 
@@ -43,6 +51,7 @@ public class TestPortio {
         String expected = "https://lennertamas.github.io/portio/";
         String actual = driver.getCurrentUrl();
         Assertions.assertEquals(expected, actual);
+        saveFailureScreenShot(driver);
     }
 
     @Test
@@ -75,6 +84,7 @@ public class TestPortio {
         String actual = basePage.getTermsAndConditionsText();
 
         Assertions.assertEquals(expected, actual);
+        saveFailureScreenShot(driver);
     }
 
     @Test
@@ -340,22 +350,42 @@ public class TestPortio {
     }
 
     @Test
-    @DisplayName("Heading szövegstílus ellenőrzése")
-    @Description("Az oldalon konzisztens a heading-ek szövegstílusa, betűtípusa")
+    @DisplayName("h2 Heading szövegstílus ellenőrzése")
+    @Description("Az oldalon konzisztens a  h2 heading-ek szövegstílusa, betűtípusa")
     @Severity(SeverityLevel.MINOR)
-    public void headingFontTest() {
+    public void h2HeadingFontTest() {
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
 
         LoginPage loginPage = registerPage.clickLogin();
         LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
-        String expected = "\"yeseva one\", cursive";
-        String[] actualArray = landingPage.getFontStyle();
+        String expected = "500 50px / 60px \"yeseva one\", cursive";
+        String[] actualArray = landingPage.getFontStyle(landingPage.getH2Headings());
         for (String actual : actualArray) {
             Assertions.assertEquals(expected, actual);
         }
     }
+
+    @Test
+    @DisplayName("h3 Heading szövegstílus ellenőrzése")
+    @Description("Az oldalon konzisztens a  h3 heading-ek szövegstílusa, betűtípusa")
+    @Severity(SeverityLevel.MINOR)
+    public void h3HeadingFontTest() {
+        basePage.clickTermsAndConditionsAccept();
+        RegisterPage registerPage = basePage.clickRegister();
+        registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
+
+        LoginPage loginPage = registerPage.clickLogin();
+        LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
+        String expected = "500 30px / 36px \"yeseva one\", cursive";
+        String[] actualArray = landingPage.getFontStyle(landingPage.getH3Headings());
+        for (String actual : actualArray) {
+            Assertions.assertEquals(expected, actual);
+        }
+    }
+
+
 
     @AfterEach
     public void dispose() {

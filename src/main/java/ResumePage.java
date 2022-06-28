@@ -4,11 +4,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class ResumePage {
-    WebDriver driver;
+public class ResumePage extends BasePage {
 
     public ResumePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     private final By experiencesButton = By.xpath("//*[@href=\"#experience\"]");

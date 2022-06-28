@@ -2,11 +2,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 
-public class BlogPage {
-    WebDriver driver;
+public class BlogPage extends BasePage {
 
     public BlogPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     private final By seeAllButton = By.xpath("//*[contains(@class, \"m-3\")]"); //

@@ -9,7 +9,7 @@ public class BasePage {
     }
 
 
-    private final String url = "https://lennertamas.github.io/portio/";
+    private final String portioURL = "https://lennertamas.github.io/portio/";
     private final By termsAndConditionsAccept = By.id("terms-and-conditions-button");
     private final By termsAndConditionsExit = By.className("CloseIcon");
     private final By termsAndConditionsMainText = By.className("row");
@@ -21,7 +21,7 @@ public class BasePage {
 
 
     public void navigate() {
-        driver.navigate().to(url);
+        driver.navigate().to(portioURL);
     }
 
     public void clickTermsAndConditionsAccept() {
@@ -48,5 +48,4 @@ public class BasePage {
     public String getTermsAndConditionsText() {
         return driver.findElement(termsAndConditionsMainText).getText();
     }
-
 }

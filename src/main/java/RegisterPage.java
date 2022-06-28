@@ -2,11 +2,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class RegisterPage {
-    WebDriver driver;
+public class RegisterPage extends BasePage {
 
     public RegisterPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     private final By usernameFieldRegister = By.id("register-username");

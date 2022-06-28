@@ -1,11 +1,10 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class ProfilePage {
-    WebDriver driver;
+public class ProfilePage extends BasePage {
 
     public ProfilePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     private final By deleteAccountButton = By.xpath("//*[@onclick=\"showRealDeleteAccBtn()\"]");

@@ -4,14 +4,14 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class LandingPage {
-    WebDriver driver;
+public class LandingPage extends BasePage {
 
     public LandingPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     private final By navBar = By.id("navbarCollapse");
+    private final By navBarHamburger = By.xpath("//*[@class=\"navbar-toggler collapsed\"]");
 
     private final By homeButton = By.xpath("//nav//a[contains(@href,\"home\")]");
     private final By aboutButton = By.xpath("//nav//a[contains(@href,\"about\")]");
@@ -27,29 +27,9 @@ public class LandingPage {
     private final By profileButton = By.id("profile-btn");
 
     private final By h2Headings = By.xpath("//h2");
-    private final By h3Headings = By.xpath("//h3");
-    private final By h4Headings = By.xpath("//h4");
-    private final By h5Headings = By.xpath("//h5");
-    private final By p = By.xpath("//p");
 
     public By getH2Headings() {
         return h2Headings;
-    }
-
-    public By getH3Headings() {
-        return h3Headings;
-    }
-
-    public By getH4Headings() {
-        return h4Headings;
-    }
-
-    public By getH5Headings() {
-        return h5Headings;
-    }
-
-    public By getP() {
-        return p;
     }
 
     public boolean isNavBarDisplayed() {
@@ -80,12 +60,21 @@ public class LandingPage {
         return new ResumePage(driver);
     }
 
+    public PortfolioPage clickWorkButton() {
+        driver.findElement(workButton).click();
+        return new PortfolioPage(driver);
+    }
+
     public String[] getFontStyle(By headings) {
         List<WebElement> headingsList = driver.findElements(headings);
-        String[] h2HeadingsFont = new String[headingsList.size()];
+        String[] headingsFont = new String[headingsList.size()];
         for (int i = 0; i < headingsList.size(); i++) {
-            h2HeadingsFont[i] = headingsList.get(i).getCssValue("font");
+            headingsFont[i] = headingsList.get(i).getCssValue("font-family");
         }
-        return h2HeadingsFont;
+        return headingsFont;
+    }
+
+    public boolean isNavBarHamburgerDisplayed() {
+        return driver.findElement(navBarHamburger).isDisplayed();
     }
 }

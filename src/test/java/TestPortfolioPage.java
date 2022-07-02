@@ -1,22 +1,22 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
+import org.testng.asserts.SoftAssert;
 
 import java.io.File;
 
 public class TestPortfolioPage extends TestPortio {
 
     @Test
+    @Tags({@Tag("AdatokLementéseFelületről"), @Tag("AdatokListázása")})
     @DisplayName("Képek ellenőrzése")
     @Description("Képek ellenőrzése a Work oldalon")
     @Severity(SeverityLevel.NORMAL)
     public void portfolioImagesTest(TestInfo testInfo) {
+        SoftAssert softAssert = new SoftAssert();
         util = new Util();
-        String testFileName = "src/test/resources/";
+        String testFileName = "src/testData/";
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
@@ -33,7 +33,8 @@ public class TestPortfolioPage extends TestPortio {
             String image = portfolioImageSources[i];
             addAttachment(testInfo.getDisplayName());
             util.imageSave(image);
-            Assertions.assertTrue(new File(imageName).exists());
+            softAssert.assertTrue(new File(imageName).exists());
+            softAssert.assertAll();
             util.fileDeleter();
         }
     }

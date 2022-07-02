@@ -13,7 +13,7 @@ import java.time.Duration;
 
 public class TestPortio {
     WebDriver driver;
-    BasePage basePage;
+    InitialPage basePage;
     Util util;
 
     @BeforeEach
@@ -30,10 +30,8 @@ public class TestPortio {
         options.addArguments("--incognito");
 
         driver = new ChromeDriver(options);
-        basePage = new BasePage(driver);
-        driver.manage()
-                .timeouts()
-                .implicitlyWait(Duration.ofSeconds(10));
+        basePage = new InitialPage(driver);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         basePage.navigate();
     }
 

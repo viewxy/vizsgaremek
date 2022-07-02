@@ -1,14 +1,12 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
 
 public class TestLoginPage extends TestPortio {
 
     @Test
+    @Tags({@Tag("Bejelentkezés"), @Tag("Regisztráció"), @Tag("ÚjAdatBevitel")})
     @DisplayName("Sikeres Sign in helyes adatokkal")
     @Description("Bejelentkezés a regisztrációnál megadottakkal egyező adatokkal")
     @Severity(SeverityLevel.CRITICAL)
@@ -26,6 +24,7 @@ public class TestLoginPage extends TestPortio {
     }
 
     @Test
+    @Tags({@Tag("Bejelentkezés"), @Tag("Regisztráció"), @Tag("ÚjAdatBevitel")})
     @DisplayName("Sikertelen Sign in helytelen username-el")
     @Description("Bejelentkezés helytelen felhasználóvévvel")
     @Severity(SeverityLevel.CRITICAL)
@@ -45,6 +44,7 @@ public class TestLoginPage extends TestPortio {
     }
 
     @Test
+    @Tags({@Tag("Bejelentkezés"), @Tag("Regisztráció"), @Tag("ÚjAdatBevitel")})
     @DisplayName("Sikertelen Sign in helytelen passworddel")
     @Description("Bejelentkezés helytelen jelszóval")
     @Severity(SeverityLevel.CRITICAL)
@@ -63,6 +63,7 @@ public class TestLoginPage extends TestPortio {
     }
 
     @Test
+    @Tags({@Tag("Bejelentkezés"), @Tag("Regisztráció"), @Tag("ÚjAdatBevitel")})
     @DisplayName("Sikertelen Sign in üres adatokkal")
     @Description("Bejelentkezés üres adatokkal")
     @Severity(SeverityLevel.CRITICAL)

@@ -1,14 +1,13 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
+import org.testng.asserts.SoftAssert;
 
 public class TestRegisterPage extends TestPortio {
 
     @Test
+    @Tags({@Tag("Regisztráció"), @Tag("Új adat bevitel")})
     @DisplayName("Regisztráció helyes adatok kitöltésével")
     @Description("Regisztráció az összes adat helyes kitöltésével")
     @Severity(SeverityLevel.CRITICAL)
@@ -25,6 +24,7 @@ public class TestRegisterPage extends TestPortio {
     }
 
     @Test
+    @Tags({@Tag("Regisztráció"), @Tag("Új adat bevitel")})
     @DisplayName("Regisztráció üres adatokkal")
     @Description("Regisztráció üres adatokkal")
     @Severity(SeverityLevel.CRITICAL)
@@ -41,6 +41,7 @@ public class TestRegisterPage extends TestPortio {
     }
 
     @Test
+    @Tags({@Tag("Regisztráció"), @Tag("ÚjAdatBevitel")})
     @DisplayName("Regisztráció Description mező üresen hagyva")
     @Description("Regisztráció helyes adatokkal, a Description mező üresen hagyva")
     @Severity(SeverityLevel.NORMAL)
@@ -57,14 +58,16 @@ public class TestRegisterPage extends TestPortio {
     }
 
     @Test
+    @Tags({@Tag("IsmételtÉsSorozatosAdatbevitel"), @Tag("ÚjAdatBevitel"), @Tag("MeglévőAdatMódosítás"), @Tag("AdatVagyAdatokTörlése")})
     @DisplayName("Sorozatos regisztráció")
     @Description("Sorozatos regisztráció fájlból adatokkal")
     @Severity(SeverityLevel.CRITICAL)
     public void registerMultipleTest(TestInfo testInfo) {
+        SoftAssert softAssert = new SoftAssert();
         util = new Util();
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
-        util.setFileName("src/test/resources/MOCK_DATA.csv");
+        util.setFileName("src/testData/registrationData.csv");
         String[] registerList = util.read().split(System.lineSeparator());
         for (String s : registerList) {
             String username = s.split(",")[0];
@@ -74,7 +77,33 @@ public class TestRegisterPage extends TestPortio {
             String actual = registerPage.checkRegistrationValidation();
 
             addAttachment(testInfo.getDisplayName());
-            Assertions.assertEquals("User registered!", actual);
+            softAssert.assertEquals("User registered!", actual);
+            softAssert.assertAll();
+        }
+    }
+
+    @Test
+    @Tags({@Tag("IsmételtÉsSorozatosAdatbevitel"), @Tag("ÚjAdatBevitel"), @Tag("MeglévőAdatMódosítás"), @Tag("AdatVagyAdatokTörlése")})
+    @DisplayName("Sorozatos regisztráció invalid email cím")
+    @Description("Sorozatos regisztráció különböző, helytelen email címekkel")
+    @Severity(SeverityLevel.CRITICAL)
+    public void registerEmailMultipleTest(TestInfo testInfo) {
+        SoftAssert softAssert = new SoftAssert();
+        util = new Util();
+        basePage.clickTermsAndConditionsAccept();
+        RegisterPage registerPage = basePage.clickRegister();
+        util.setFileName("src/testData/invalidEmailRegistrationData.csv");
+        String[] registerList = util.read().split(System.lineSeparator());
+        for (String s : registerList) {
+            String username = s.split(",")[0];
+            String password = s.split(",")[1];
+            String email = s.split(",")[2];
+            registerPage.registerProcess(username, password, email, "");
+            String actual = registerPage.checkRegistrationValidation();
+
+            addAttachment(testInfo.getDisplayName());
+            softAssert.assertNotEquals("User registered!", actual);
+            softAssert.assertAll();
         }
     }
 }

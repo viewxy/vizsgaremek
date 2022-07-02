@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class LandingPage extends BasePage {
+public class LandingPage extends InitialPage {
 
     public LandingPage(WebDriver driver) {
         super(driver);
@@ -53,11 +53,6 @@ public class LandingPage extends BasePage {
     public LoginPage clickLogoutButton() {
         driver.findElement(logOutButton).click();
         return new LoginPage(driver);
-    }
-
-    public ResumePage clickResumeButton() {
-        driver.findElement(resumeButton).click();
-        return new ResumePage(driver);
     }
 
     public PortfolioPage clickWorkButton() {

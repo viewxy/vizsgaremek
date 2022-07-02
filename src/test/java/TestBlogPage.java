@@ -1,14 +1,12 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
 
 public class TestBlogPage extends TestPortio {
 
     @Test
+    @Tags({@Tag("AdatokListázása"), @Tag("TöbboldalasListaBejárása")})
     @DisplayName("Blog oldal lista lapozás ellenőrzése")
     @Description("Blog összes bejegyzés lapozás")
     @Severity(SeverityLevel.NORMAL)
@@ -34,12 +32,13 @@ public class TestBlogPage extends TestPortio {
     }
 
     @Test
+    @Tags({@Tag("AdatokListázása"), @Tag("TöbboldalasListaBejárása"), @Tag("AdatokLementéseFelületről")})
     @DisplayName("Blog oldal tartalom ellenőrzése")
     @Description("Blog összes bejegyzés cím ellenőrzése")
     @Severity(SeverityLevel.NORMAL)
     public void blogTitlesToFileTest(TestInfo testInfo) throws InterruptedException {
         util = new Util();
-        String testFileName = "src/test/resources/blogPostTitles.txt";
+        String testFileName = "src/testData/blogPostTitles.txt";
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");

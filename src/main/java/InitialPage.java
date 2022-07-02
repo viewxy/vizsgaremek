@@ -1,10 +1,10 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class BasePage {
+public class InitialPage {
     WebDriver driver;
 
-    public BasePage(WebDriver driver) {
+    public InitialPage(WebDriver driver) {
         this.driver = driver;
     }
 

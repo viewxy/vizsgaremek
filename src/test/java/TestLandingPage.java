@@ -1,15 +1,14 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.Dimension;
+import org.testng.asserts.SoftAssert;
 
 public class TestLandingPage extends TestPortio {
 
     @Test
+    @Tag("Kijelentkezés")
     @DisplayName("Logout")
     @Description("Kijelentkezés")
     @Severity(SeverityLevel.CRITICAL)
@@ -31,10 +30,12 @@ public class TestLandingPage extends TestPortio {
     }
 
     @Test
+    @Tag("AdatokListázása")
     @DisplayName("h2 Heading szövegstílus ellenőrzése")
     @Description("Az oldalon konzisztens a  h2 heading-ek szövegstílusa, betűtípusa")
     @Severity(SeverityLevel.MINOR)
     public void h2HeadingFontTest(TestInfo testInfo) {
+        SoftAssert softAssert = new SoftAssert();
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
@@ -46,11 +47,13 @@ public class TestLandingPage extends TestPortio {
         for (String actual : actualArray) {
             addAttachment(testInfo.getDisplayName());
 
-            Assertions.assertEquals(expected, actual);
+            softAssert.assertEquals(expected, actual);
+            softAssert.assertAll();
         }
     }
 
     @Test
+    @Tag("Reszponzivitás")
     @DisplayName("Keskeny nézet ellenőrzés")
     @Description("Keskeny nézetben a navBar hamburger menüre vált")
     @Severity(SeverityLevel.MINOR)

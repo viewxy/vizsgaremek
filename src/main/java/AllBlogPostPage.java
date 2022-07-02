@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class AllBlogPostPage extends BasePage {
+public class AllBlogPostPage extends InitialPage {
 
     public AllBlogPostPage(WebDriver driver) {
         super(driver);

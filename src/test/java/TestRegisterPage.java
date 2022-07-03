@@ -7,7 +7,7 @@ import org.testng.asserts.SoftAssert;
 public class TestRegisterPage extends TestPortio {
 
     @Test
-    @Tags({@Tag("Regisztráció"), @Tag("Új adat bevitel")})
+    @Tags({@Tag("Regisztráció"), @Tag("ÚjAdatBevitel")})
     @DisplayName("Regisztráció helyes adatok kitöltésével")
     @Description("Regisztráció az összes adat helyes kitöltésével")
     @Severity(SeverityLevel.CRITICAL)
@@ -24,7 +24,7 @@ public class TestRegisterPage extends TestPortio {
     }
 
     @Test
-    @Tags({@Tag("Regisztráció"), @Tag("Új adat bevitel")})
+    @Tags({@Tag("Regisztráció"), @Tag("ÚjAdatBevitel")})
     @DisplayName("Regisztráció üres adatokkal")
     @Description("Regisztráció üres adatokkal")
     @Severity(SeverityLevel.CRITICAL)

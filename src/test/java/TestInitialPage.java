@@ -52,7 +52,7 @@ public class TestInitialPage extends TestPortio {
     @Severity(SeverityLevel.CRITICAL)
     public void termsAndConditionsMainTextTest(TestInfo testInfo) {
         util = new Util();
-        util.setFileName("src/testData/termsandconditions.txt");
+        util.setFileName("testData/termsandconditions.txt");
         String expected = util.read();
         String actual = basePage.getTermsAndConditionsText();
 

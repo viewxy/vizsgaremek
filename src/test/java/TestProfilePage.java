@@ -68,7 +68,7 @@ public class TestProfilePage extends TestPortio {
         LandingPage landingPage = loginPage.loginProcess("viewxy", "pass123");
 
         ProfilePage profilePage = landingPage.clickProfileButton();
-        util.setFileName("src/testData/profileInfoData.csv");
+        util.setFileName("testData/profileInfoData.csv");
 
 
         String[] profileUpdateArray = util.read().split(System.lineSeparator());
@@ -86,7 +86,7 @@ public class TestProfilePage extends TestPortio {
 
             addAttachment(testInfo.getDisplayName());
             softAssert.assertEquals(expected, actual);
-            softAssert.assertAll();
         }
+        softAssert.assertAll();
     }
 }

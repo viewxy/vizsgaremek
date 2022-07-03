@@ -16,7 +16,7 @@ public class TestPortfolioPage extends TestPortio {
     public void portfolioImagesTest(TestInfo testInfo) {
         SoftAssert softAssert = new SoftAssert();
         util = new Util();
-        String testFileName = "src/testData/";
+        String testFileName = "testData/";
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
@@ -34,8 +34,9 @@ public class TestPortfolioPage extends TestPortio {
             addAttachment(testInfo.getDisplayName());
             util.imageSave(image);
             softAssert.assertTrue(new File(imageName).exists());
-            softAssert.assertAll();
+
             util.fileDeleter();
         }
+        softAssert.assertAll();
     }
 }

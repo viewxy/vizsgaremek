@@ -2,23 +2,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class InitialPage {
-    WebDriver driver;
-
-    public InitialPage(WebDriver driver) {
-        this.driver = driver;
-    }
-
-
     private final String portioURL = "https://lennertamas.github.io/portio/";
     private final By termsAndConditionsAccept = By.id("terms-and-conditions-button");
     private final By termsAndConditionsExit = By.className("CloseIcon");
     private final By termsAndConditionsMainText = By.className("row");
     private final By overlay = By.id("overlay");
     private final By popUp = By.className("popup");
-
-
     private final By register = By.xpath("(//*[@id=\"register-form-button\"])[1]");
+    WebDriver driver;
 
+    public InitialPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
     public void navigate() {
         driver.navigate().to(portioURL);

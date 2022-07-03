@@ -67,7 +67,7 @@ public class TestRegisterPage extends TestPortio {
         util = new Util();
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
-        util.setFileName("src/testData/registrationData.csv");
+        util.setFileName("testData/registrationData.csv");
         String[] registerList = util.read().split(System.lineSeparator());
         for (String s : registerList) {
             String username = s.split(",")[0];
@@ -78,8 +78,8 @@ public class TestRegisterPage extends TestPortio {
 
             addAttachment(testInfo.getDisplayName());
             softAssert.assertEquals("User registered!", actual);
-            softAssert.assertAll();
         }
+        softAssert.assertAll();
     }
 
     @Test
@@ -92,7 +92,7 @@ public class TestRegisterPage extends TestPortio {
         util = new Util();
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
-        util.setFileName("src/testData/invalidEmailRegistrationData.csv");
+        util.setFileName("testData/invalidEmailRegistrationData.csv");
         String[] registerList = util.read().split(System.lineSeparator());
         for (String s : registerList) {
             String username = s.split(",")[0];
@@ -103,7 +103,7 @@ public class TestRegisterPage extends TestPortio {
 
             addAttachment(testInfo.getDisplayName());
             softAssert.assertNotEquals("User registered!", actual);
-            softAssert.assertAll();
         }
+        softAssert.assertAll();
     }
 }

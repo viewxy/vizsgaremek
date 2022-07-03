@@ -48,8 +48,8 @@ public class TestLandingPage extends TestPortio {
             addAttachment(testInfo.getDisplayName());
 
             softAssert.assertEquals(expected, actual);
-            softAssert.assertAll();
         }
+        softAssert.assertAll();
     }
 
     @Test

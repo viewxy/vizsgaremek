@@ -4,10 +4,6 @@ import org.openqa.selenium.WebElement;
 
 public class ProfilePage extends InitialPage {
 
-    public ProfilePage(WebDriver driver) {
-        super(driver);
-    }
-
     private final By deleteAccountButton = By.xpath("//*[@onclick=\"showRealDeleteAccBtn()\"]");
     private final By iAmSureButton = By.id("delete-account-btn");
     private final By nameField = By.id("name");
@@ -15,6 +11,9 @@ public class ProfilePage extends InitialPage {
     private final By phoneNumberField = By.id("phone-number");
     private final By saveProfileButton = By.xpath("//*[@onclick=\"editUser()\"]");
     private final By saveProfileMessage = By.id("edit-alert");
+    public ProfilePage(WebDriver driver) {
+        super(driver);
+    }
 
     public void clickDeleteAccountButton() {
         driver.findElement(deleteAccountButton).click();

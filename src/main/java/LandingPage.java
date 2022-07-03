@@ -6,27 +6,17 @@ import java.util.List;
 
 public class LandingPage extends InitialPage {
 
+    private final By navBar = By.id("navbarCollapse");
+    private final By navBarHamburger = By.xpath("//*[@class=\"navbar-toggler collapsed\"]");
+    private final By workButton = By.xpath("//nav//a[contains(@href,\"portfolio\")]");
+    private final By blogButton = By.xpath("//nav//a[contains(@href,\"blog\")]");
+    private final By logOutButton = By.id("logout-link");
+    private final By profileButton = By.id("profile-btn");
+    private final By h2Headings = By.xpath("//h2");
+
     public LandingPage(WebDriver driver) {
         super(driver);
     }
-
-    private final By navBar = By.id("navbarCollapse");
-    private final By navBarHamburger = By.xpath("//*[@class=\"navbar-toggler collapsed\"]");
-
-    private final By homeButton = By.xpath("//nav//a[contains(@href,\"home\")]");
-    private final By aboutButton = By.xpath("//nav//a[contains(@href,\"about\")]");
-    private final By serviceButton = By.xpath("//nav//a[contains(@href,\"service\")]");
-    private final By workButton = By.xpath("//nav//a[contains(@href,\"portfolio\")]");
-    private final By resumeButton = By.xpath("//nav//a[contains(@href,\"resume\")]");
-    private final By skillsButton = By.xpath("//nav//a[contains(@href,\"skills\")]");
-    private final By blogButton = By.xpath("//nav//a[contains(@href,\"blog\")]");
-    private final By contactButton = By.xpath("//nav//a[contains(@href,\"contact\")]");
-
-
-    private final By logOutButton = By.id("logout-link");
-    private final By profileButton = By.id("profile-btn");
-
-    private final By h2Headings = By.xpath("//h2");
 
     public By getH2Headings() {
         return h2Headings;

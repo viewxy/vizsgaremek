@@ -4,19 +4,17 @@ import org.openqa.selenium.WebElement;
 
 public class RegisterPage extends InitialPage {
 
-    public RegisterPage(WebDriver driver) {
-        super(driver);
-    }
-
     private final By usernameFieldRegister = By.id("register-username");
     private final By passwordFieldRegister = By.id("register-password");
     private final By emailFieldRegister = By.id("register-email");
     private final By description = By.id("register-description");
     private final By registerSubmitButton = By.xpath("//button[@onclick=\"registerUser()\"]");
-
     private final By registrationValidation = By.id("register-alert");
-
     private final By login = By.xpath("(//*[@id=\"login-form-button\"])[2]");
+
+    public RegisterPage(WebDriver driver) {
+        super(driver);
+    }
 
     public void fillUsernameField(String usernameText) {
         WebElement usernameField = driver.findElement(usernameFieldRegister);

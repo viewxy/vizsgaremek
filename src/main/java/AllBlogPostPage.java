@@ -6,14 +6,13 @@ import java.util.List;
 
 public class AllBlogPostPage extends InitialPage {
 
-    public AllBlogPostPage(WebDriver driver) {
-        super(driver);
-    }
-
     private final By nextButton = By.xpath("//*[@rel=\"next\"]");
     private final By lastPageButton = By.xpath("//nav[@aria-label=\"Page navigation\"]//li[last()]");
     private final By blogPostTitleContentBox = By.xpath("//div[@class=\"blog-page__item-content bg-white\"]");
     private final By blogPostMainTitle = By.xpath(".//a");
+    public AllBlogPostPage(WebDriver driver) {
+        super(driver);
+    }
 
     public void clickNextButton() {
         driver.findElement(nextButton).click();

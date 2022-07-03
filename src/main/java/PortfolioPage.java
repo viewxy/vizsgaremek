@@ -6,13 +6,11 @@ import java.util.List;
 
 public class PortfolioPage extends InitialPage {
 
+    private final By images = By.className("portfolio-item-thumb");
+    private final By titles = By.xpath("//*[@class=\"portfolio-item\"]//h3");
     public PortfolioPage(WebDriver driver) {
         super(driver);
     }
-
-    private final By images = By.className("portfolio-item-thumb");
-    private final By titles = By.xpath("//*[@class=\"portfolio-item\"]//h3");
-
 
     public String[] getImages() {
         List<WebElement> imagesList = driver.findElements(images);

@@ -38,7 +38,7 @@ public class TestBlogPage extends TestPortio {
     @Severity(SeverityLevel.NORMAL)
     public void blogTitlesToFileTest(TestInfo testInfo) throws InterruptedException {
         util = new Util();
-        String testFileName = "src/testData/blogPostTitles.txt";
+        String testFileName = "testData/blogPostTitles.txt";
         basePage.clickTermsAndConditionsAccept();
         RegisterPage registerPage = basePage.clickRegister();
         registerPage.registerProcess("viewxy", "pass123", "viewxy@gmail.com", "");
